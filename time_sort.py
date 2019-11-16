@@ -5,6 +5,10 @@ Created on Wed Nov 13 12:28:15 2019
 @author: Stian
 """
 
+import timeit
+import numpy as np
+import copy
+
 
 def time_sort(sort_func, data, num_reps=1):
     """

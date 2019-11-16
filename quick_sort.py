@@ -17,18 +17,10 @@ def partition(a, p, r):
     return i + 1
 
 
-def quick_sort(a, p, r):
+def quick_sort(a, p=0, r=None):
+    if(r==None):
+        r = len(a)-1
     if p < r:
         q = partition(a, p, r)
         quick_sort(a, p, q - 1)
         quick_sort(a, q + 1, r)
-
-
-# TEST:
-a = [4, 2, 6, 5, 9, 10, 1]
-p = 0
-r = len(a) - 1
-
-quick_sort(a, p, r)
-print(a)
-

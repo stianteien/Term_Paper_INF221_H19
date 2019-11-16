@@ -40,19 +40,11 @@ def merge(a, p, q, r):
             j = j + 1
 
 
-def merge_sort(a, p, r):
+def merge_sort(a, p=0, r=None):
+    if(r==None):
+        r = len(a)
     if p < r:
         q = floor((p + r)/2)
         merge_sort(a, p, q)
         merge_sort(a, q + 1, r)
         merge(a, p, q, r)
-
-
-# TEST:
-a = [4, 2, 6, 5, 9, 10, 1]
-p = 1
-r = len(a)
-
-merge_sort(a, p, r)
-print(a)
-

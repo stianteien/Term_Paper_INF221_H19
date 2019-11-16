@@ -45,8 +45,3 @@ def heap_sort(arr):
         arr[i], arr[0] = arr[0], arr[i] # swap 
         max_heapify(arr, i, 0) 
   
-# Driver code to test above 
-a = [4, 2, 6, 5, 9, 10, 1]
-
-heap_sort(a)
-print(a)

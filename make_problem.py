@@ -23,7 +23,9 @@ def nearly_sorted(n):
     return nearly_sorted_array
 
 def random_sorted(n):
-    return random.shuffle(already_sorted(n))
+    array = already_sorted(n)
+    random.shuffle(array)
+    return array
 
 def reverse_sorted(n):
     return [i for i in range(2**n, 0, -1)]
