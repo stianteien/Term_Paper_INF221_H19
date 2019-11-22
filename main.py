@@ -16,8 +16,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
-
-
 def make_graph(size, time, title="Benchmark"): 
     #size = [10**i for i in size]
     fig = plt.figure(figsize=(3, 3))
@@ -31,7 +29,7 @@ def make_graph(size, time, title="Benchmark"):
     
     #ax.locator_params(axis='x', nbins=4)
     ax.set_xlabel('Array size', fontsize=8)
-    ax.set_ylabel('Seconds', fontsize=8)
+    ax.set_ylabel('Runtime [s]', fontsize=8)
     
     #ax.set_xticklabels(ax.get_xticklabels(), fontsize=10)
     ax.tick_params(axis="x", labelsize=6)
@@ -40,13 +38,15 @@ def make_graph(size, time, title="Benchmark"):
     #ax.set_yticklabels(ax.get_yticklabels(), fontsize=10)
     #plt.xscale('log')
     plt.title(title)
-    
+ 
+
 def make_logaritmal(data):
     for i,value in enumerate(data):
         for j, item in enumerate(value):
             data[i][j] = math.log2(item[0]*100000)
         
     return data
+
 
 def make_two_desimals(data):
     if 'e' in data:
@@ -61,6 +61,7 @@ def make_two_desimals(data):
         return data[0:7]
     
     return data
+
 
 def make_table(merge, heap, quick, numpy, sort):
     bugg = "\\"
@@ -79,11 +80,10 @@ def make_table(merge, heap, quick, numpy, sort):
             
         print(info)
 
-    
-
 
 def simualtion(function, array):
     return time_sort.time_sort(function, data=array, num_reps=1)
+
 
 def multi_simulations(function, n):
     times = [[], [], [], []]
@@ -126,28 +126,28 @@ if __name__ == "__main__":
     
     # Mergesort
     merge_sort = multi_simulations(merge_sort.merge_sort, 20)
-    #make_graph(merge_sort[0], (merge_sort[1]), title='Merge Sort')
-    #make_graph(merge_sort[0], make_logaritmal(merge_sort[1]), title='Merge Sort Logarithmic')
+    make_graph(merge_sort[0], (merge_sort[1]), title='Merge Sort')
+    make_graph(merge_sort[0], make_logaritmal(merge_sort[1]), title='Merge Sort Logarithmic')
     
     # Heapsort
     heap_sort = multi_simulations(heap_sort.heap_sort, 20)
-    #make_graph(heap_sort[0], (heap_sort[1]), title='Heap Sort')
-    #make_graph(heap_sort[0], make_logaritmal(heap_sort[1]), title='Heap Sort Logarithmic')
+    make_graph(heap_sort[0], (heap_sort[1]), title='Heap Sort')
+    make_graph(heap_sort[0], make_logaritmal(heap_sort[1]), title='Heap Sort Logarithmic')
     
     # Quicksort
     quick_sort = multi_simulations(quick_sort.quick_sort, 10)
-    #make_graph(quick_sort[0], (quick_sort[1]), title='Quick Sort')
-    #make_graph(quick_sort[0], make_logaritmal(quick_sort[1]), title='Quick Sort Logarithmic')
+    make_graph(quick_sort[0], (quick_sort[1]), title='Quick Sort')
+    make_graph(quick_sort[0], make_logaritmal(quick_sort[1]), title='Quick Sort Logarithmic')
     
     # Numpysort 
     numpy_sort = multi_simulations(np.sort, 20)
-    #make_graph(numpy_sort[0], (numpy_sort[1]), title='Numpy Sort')
-    #make_graph(numpy_sort[0], make_logaritmal(numpy_sort[1]), title='Numpy Sort Logarithmic')
+    make_graph(numpy_sort[0], (numpy_sort[1]), title='Numpy Sort')
+    make_graph(numpy_sort[0], make_logaritmal(numpy_sort[1]), title='Numpy Sort Logarithmic')
     
     # Sorted sort?
     sorted_sort = multi_simulations(sorted, 20)
-    #make_graph(sorted_sort[0],(sorted_sort[1]), title='Sorted Sort')
-    #make_graph(sorted_sort[0], make_logaritmal(sorted_sort[1]), title='Sorted Sort Logarithmic')
+    make_graph(sorted_sort[0],(sorted_sort[1]), title='Sorted Sort')
+    make_graph(sorted_sort[0], make_logaritmal(sorted_sort[1]), title='Sorted Sort Logarithmic')
     
     make_table(merge_sort, heap_sort, quick_sort, numpy_sort, sorted_sort)
     
