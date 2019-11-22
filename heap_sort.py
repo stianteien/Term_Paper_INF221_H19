@@ -1,47 +1,32 @@
 # -*- coding: utf-8 -*-
 
 """
-This code is contributed by Mohit Kumra. 
-Taken from https://www.geeksforgeeks.org/heap-sort/
+This code is copied from
+https://brilliant.org/wiki/heap-sort/
 """
 
+def max_heapify(arr, heap_size, i):
+    left = 2 * i + 1
+    right = 2 * i + 2
+    largest = i
+    if left < heap_size and arr[left] > arr[largest]:
+        largest = left
+    if right < heap_size and arr[right] > arr[largest]:
+        largest = right
+    if largest != i:
+        arr[i], arr[largest] = arr[largest], arr[i]
+        max_heapify(arr, heap_size, largest)
 
-# Python program for implementation of heap Sort 
-  
-# To heapify subtree rooted at index i. 
-# n is size of heap 
-def max_heapify(arr, n, i): 
-    largest = i # Initialize largest as root 
-    l = 2 * i + 1     # left = 2*i + 1 
-    r = 2 * i + 2     # right = 2*i + 2 
-  
-    # See if left child of root exists and is 
-    # greater than root 
-    if l < n and arr[i] < arr[l]: 
-        largest = l 
-  
-    # See if right child of root exists and is 
-    # greater than root 
-    if r < n and arr[largest] < arr[r]: 
-        largest = r 
-  
-    # Change root, if needed 
-    if largest != i: 
-        arr[i],arr[largest] = arr[largest],arr[i] # swap 
-  
-        # Heapify the root. 
-        max_heapify(arr, n, largest) 
-  
-# The main function to sort an array of given size 
-def heap_sort(arr): 
-    n = len(arr) 
-  
-    # Build a maxheap. 
-    for i in range(n, -1, -1): 
-        max_heapify(arr, n, i) 
-  
-    # One by one extract elements 
-    for i in range(n-1, 0, -1): 
-        arr[i], arr[0] = arr[0], arr[i] # swap 
-        max_heapify(arr, i, 0) 
-  
+def build_heap(arr):
+    heap_size = len(arr)
+    for i in range (int(heap_size/2),-1,-1):
+        max_heapify(arr,heap_size, i)
+
+def heap_sort(arr):
+    heap_size = len(arr)
+    build_heap(arr)
+    #print A #uncomment this print to see the heap it builds
+    for i in range(heap_size-1,0,-1):
+        arr[0], arr[i] = arr[i], arr[0]
+        heap_size -= 1
+        max_heapify(arr, heap_size, 0)
