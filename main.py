@@ -14,6 +14,9 @@ import math
 import datetime
 import numpy as np
 import matplotlib.pyplot as plt
+import copy
+
+
 
 
 def make_graph(size, time, title="Benchmark"): 
@@ -38,15 +41,14 @@ def make_graph(size, time, title="Benchmark"):
     #ax.set_yticklabels(ax.get_yticklabels(), fontsize=10)
     #plt.xscale('log')
     plt.title(title)
- 
-
+    
 def make_logaritmal(data):
-    for i,value in enumerate(data):
+    min_data = copy.deepcopy(data)
+    for i,value in enumerate(min_data):
         for j, item in enumerate(value):
-            data[i][j] = math.log2(item[0]*100000)
+            min_data[i][j] = math.log2(item[0]*100000)
         
-    return data
-
+    return min_data
 
 def make_two_desimals(data):
     if 'e' in data:
@@ -61,7 +63,6 @@ def make_two_desimals(data):
         return data[0:7]
     
     return data
-
 
 def make_table(merge, heap, quick, numpy, sort):
     bugg = "\\"
@@ -80,10 +81,11 @@ def make_table(merge, heap, quick, numpy, sort):
             
         print(info)
 
+    
+
 
 def simualtion(function, array):
     return time_sort.time_sort(function, data=array, num_reps=1)
-
 
 def multi_simulations(function, n):
     times = [[], [], [], []]
@@ -150,5 +152,4 @@ if __name__ == "__main__":
     make_graph(sorted_sort[0], make_logaritmal(sorted_sort[1]), title='Sorted Sort Logarithmic')
     
     make_table(merge_sort, heap_sort, quick_sort, numpy_sort, sorted_sort)
-    
     
