@@ -7,6 +7,7 @@ Created on Wed Nov 13 13:23:07 2019
 
 import random
 import math
+random.seed(12345)
 
 def already_sorted(n):
     return [i for i in range(2**n)]
