@@ -19,7 +19,7 @@ import copy
 
 
 
-def make_graph(size, time, title="Benchmark"): 
+def make_graph(size, time, c1=1, c2=1, loga=False, title="Benchmark"): 
     #size = [10**i for i in size]
     fig = plt.figure(figsize=(3, 3))
     ax = fig.add_axes([0.16, 0.15, 0.83, 0.75])
@@ -27,6 +27,27 @@ def make_graph(size, time, title="Benchmark"):
     line_reversed, = ax.plot(size,time[1], 'o-', label="Reversed", linewidth=1, markersize=3)
     line_nearly, = ax.plot(size,time[2], 'o-', label="Nearly Sorted", linewidth=1, markersize=3)
     line_random, = ax.plot(size,time[3], 'o-', label="Random", linewidth=1, markersize=3)
+    
+    
+    if 'Quick Sort' in title:
+        upper = [(i**2)*c1 for i in size]
+        line_upperbound, = ax.plot(size, upper, '--', linewidth=1.5, color="black")
+        lower = [(i * math.log(i))*c2 for i in size]
+        line_lowerbound, = ax.plot(size, lower, '--', linewidth=1.5, color='grey')
+        
+    elif 'Merge Sort' in title:
+        upper = [(i * math.log(i))*c1 for i in size]
+        line_upperbound, = ax.plot(size, upper, '--', linewidth=1, color="black")
+        lower = [(i * math.log(i))*c2 for i in size]
+        line_lowerbound, = ax.plot(size, lower, '--', linewidth=1, color='grey')
+        
+    elif 'Heap Sort' in title:
+        upper = [(i * math.log(i))*c1 for i in size]
+        line_upperbound, = ax.plot(size, upper, '--', linewidth=1, color="black")
+        
+    
+    
+    
     ax.legend(handles=[line_sorted, line_reversed, line_nearly, line_random],
                loc='best', prop={'size': 7})
     
@@ -38,8 +59,10 @@ def make_graph(size, time, title="Benchmark"):
     ax.tick_params(axis="x", labelsize=6)
     ax.tick_params(axis="y", labelsize=6)
 
-    #ax.set_yticklabels(ax.get_yticklabels(), fontsize=10)
-    #plt.xscale('log')
+    if loga == True:
+        plt.xscale('log')
+        plt.yscale('log')
+        
     plt.title(title)
     
 def make_logaritmal(data):
@@ -128,28 +151,39 @@ if __name__ == "__main__":
     
     # Mergesort
     merge_sort = multi_simulations(merge_sort.merge_sort, 20)
-    make_graph(merge_sort[0], (merge_sort[1]), title='Merge Sort')
-    make_graph(merge_sort[0], make_logaritmal(merge_sort[1]), title='Merge Sort Logarithmic')
+    make_graph(merge_sort[0], (merge_sort[1]), c1=11.39*10**-7, c2=5.39*10**-7, title='Merge Sort')
+    plt.savefig('graphs/merge_sort_image.pdf')
+    make_graph(merge_sort[0], (merge_sort[1]), c1=11.39*10**-7, c2=5.39*10**-7, loga=True, title='Merge Sort Logarithmic')
+    plt.savefig('graphs/merge_sort_log_image.pdf')
     
     # Heapsort
     heap_sort = multi_simulations(heap_sort.heap_sort, 20)
-    make_graph(heap_sort[0], (heap_sort[1]), title='Heap Sort')
-    make_graph(heap_sort[0], make_logaritmal(heap_sort[1]), title='Heap Sort Logarithmic')
+    make_graph(heap_sort[0], (heap_sort[1]), c1=10.53*10**-7, c2=6.53*10**-7, title='Heap Sort')
+    plt.savefig('graphs/heap_sort_image.pdf')
+    make_graph(heap_sort[0], (heap_sort[1]), c1=10.53*10**-7, c2=6.53*10**-7, loga=True, title='Heap Sort Logarithmic')
+    plt.savefig('graphs/heap_sort_log_image.pdf')
     
     # Quicksort
     quick_sort = multi_simulations(quick_sort.quick_sort, 10)
-    make_graph(quick_sort[0], (quick_sort[1]), title='Quick Sort')
-    make_graph(quick_sort[0], make_logaritmal(quick_sort[1]), title='Quick Sort Logarithmic')
+    make_graph(quick_sort[0], (quick_sort[1]), c1=1.2*10**-7, c2=1.86*10**-7, title='Quick Sort')
+    plt.savefig('graphs/quick_sort_image.pdf')
+    make_graph(quick_sort[0], (quick_sort[1]), c1=1.2*10**-7, c2=1.86*10**-7, loga=True, title='Quick Sort Logarithmic')
+    plt.savefig('graphs/quick_sort_log_image.pdf')
     
     # Numpysort 
     numpy_sort = multi_simulations(np.sort, 20)
     make_graph(numpy_sort[0], (numpy_sort[1]), title='Numpy Sort')
-    make_graph(numpy_sort[0], make_logaritmal(numpy_sort[1]), title='Numpy Sort Logarithmic')
+    plt.savefig('graphs/numpy_sort_image.pdf')
+    make_graph(numpy_sort[0], (numpy_sort[1]), loga=True, title='Numpy Sort Logarithmic')
+    plt.savefig('graphs/numpy_sort_log_image.pdf')
     
-    # Sorted sort?
+    # Sorted sort
     sorted_sort = multi_simulations(sorted, 20)
     make_graph(sorted_sort[0],(sorted_sort[1]), title='Sorted Sort')
-    make_graph(sorted_sort[0], make_logaritmal(sorted_sort[1]), title='Sorted Sort Logarithmic')
+    plt.savefig('graphs/sorted_sort_image.pdf')
+    make_graph(sorted_sort[0], (sorted_sort[1]), loga=True, title='Sorted Sort Logarithmic')
+    plt.savefig('graphs/sorted_sort_log_image.pdf')
     
-    make_table(merge_sort, heap_sort, quick_sort, numpy_sort, sorted_sort)
+    #make_table(merge_sort, heap_sort, quick_sort, numpy_sort, sorted_sort)
+    
     
